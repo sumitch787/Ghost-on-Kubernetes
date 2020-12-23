@@ -1,0 +1,34 @@
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: mysql-data
+  labels:
+    name: mysql-pv
+spec:
+  storageClassName: mysql-local
+  accessModes:
+    - ReadWriteOnce
+  capacity:
+     storage: 2Gi
+  volumeMode: Filesystem
+  persistentVolumeReclaimPolicy: Retain
+  hostPath:
+    path: "/home/docker/mysql"
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: ghost-data
+  labels:
+    name: ghost-pv
+spec:
+  storageClassName: ghost-local
+  accessModes:
+    - ReadWriteOnce
+  capacity:
+     storage: 2Gi
+  volumeMode: Filesystem
+  persistentVolumeReclaimPolicy: Retain
+  hostPath:
+    path: "/home/docker/ghost"

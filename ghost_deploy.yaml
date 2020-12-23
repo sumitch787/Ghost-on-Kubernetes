@@ -1,0 +1,61 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ghost
+  labels:
+    name: ghost
+    app: frontend
+    purpose: appserver
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: ghost
+  template:
+    metadata:
+      name: ghost
+      labels:
+        name: ghost
+        app: frontend
+        purpose: appserver
+    spec:
+      containers:
+        - name: ghost
+          imagePullPolicy: IfNotPresent
+          image: ghost:3.40.1
+          resources:
+           requests:
+                cpu: 200m
+                memory: 512m
+          env:
+            - name: "url"
+              value: "https://wallpaper.local"
+            - name: "database__client"
+              value: "mysql"
+            - name: "database__connection__user"
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-secrets
+                  key: user
+            - name: "database__connection__password"
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-secrets
+                  key: user-password
+            - name: "database__connection__database"
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-secrets
+                  key: database
+            - name: "database__connection__host"
+              value: mysql
+          ports:
+            - name: ghost-port
+              containerPort: 2368
+          volumeMounts:
+            - name: ghost-data
+              mountPath: "/var/lib/ghost/contents"
+      volumes:
+        - name: ghost-data
+          persistentVolumeClaim:
+            claimName: ghost-pvc
