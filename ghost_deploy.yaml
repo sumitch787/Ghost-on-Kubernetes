@@ -22,7 +22,7 @@ spec:
       containers:
         - name: ghost
           imagePullPolicy: IfNotPresent
-          image: ghost:3.40.1
+          image: docker.io/library/ghost:6.0.0-alpine
           resources:
            requests:
                 cpu: 200m
