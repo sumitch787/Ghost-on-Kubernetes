@@ -21,7 +21,7 @@ spec:
     spec:
       containers:
         - name: mysql
-          image: mysql:5.7.32
+          image: docker.io/library/mysql:9.4.0
           resources:
            requests:
                 cpu: 200m
